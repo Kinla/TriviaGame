@@ -12,16 +12,24 @@
 </head>
 <body>
     <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title">Trivia Title</div>
-                <div class="btn"></div>
+        <div class="card mx-auto my-4 col-10 text-center">
+            <h1>Trivia Game Title</h1>
+            <div class="card-body">                
+                <button type="button" class="btn btn-info" id="start">Start</button>
                 <!-- The bottom all should show after start button is hit.-->
-                <br>
-                <div class="timer">This is the div timer</div>
+                <p id="timer"></p>
+                <div id="deck">
+                    <h5 class="card-title question">This is the question</h5>
+                    <ul class="answerList">
+                        <li class="a">This is the answer</li>
+                        <li class="b">This is the answer</li>
+                        <li class="c">This is the answer</li>
+                        <li class="d">This is the answer</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</body>
 <script src="assets/javascript/app.js"></script>
+</body>
 </html>
