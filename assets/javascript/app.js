@@ -1,63 +1,120 @@
-//Creating the proto funtion
-var Trivia = function (question, a, b, c, d, id, answer, video) {
-    this.question = question;
-    this.a = a;
-    this.b =b;
-    this.c = c;
-    this.d = d;
-    this.answerID = id;
-    this.answerLine = answer;
-    this.video = video
-}
-
 //Creating each trivia question
-var tiana = new Trivia ("Which of the following Disney princess is left handed?", "Aurora", "Belle", "Jasmine", "Tiana", "d", "Tiana is the only royal who is left-handed other than the honorary-royal, Mulan.");
-var merida = new Trivia ("Which of the following Disney princess has brothers?", "Ariel", "Snow White", "Merida", "Rapunzel", "c", "Merida is the only princess to have brothers");
-var pocahontas = new Trivia ("Which Disney Princess is based on a real person?", "Pocahontas", "Tiana", "Merida", "Mulan", "a", "Pocahontas was the only princess based on a real person. Mulan was based on a poem.")
-var cinderella = new Trivia ("Which Disney Princess almost had a pet turtle named Clarissa?", "Cinderella", "Ariel", "Pocahontas", "Belle", "a", "In earlier drafts of the film, Cinderella originally had a pet turtle named Clarissa.")
-var moana = new Trivia ("Who is currently waiting for their official live coronation to become a Disney Princess?", "Anna", "Moana", "Shuri", "Gamora", "b", "Moana is almost there!")
+var tiana = {
+    question: "Which of the following Disney princess is left handed?",
+    answers: ["Aurora", "Belle", "Jasmine", "Tiana"],
+    correctAns: "Tiana",
+    answerLine: "Tiana is the only princess who is left-handed other than the honorary-royal, Mulan.",
+    video: "",
+};
+
+var merida = {
+    question: "Which of the following Disney princess has brothers?",
+    answers: ["Ariel", "Snow White", "Merida", "Rapunzel"],
+    correctAns: "Merida",
+    answerLine: "Merida is the only princess to have brothers",
+    video: "",
+};
+
+var pocahontas = {
+    question: "Which Disney Princess is based on a real person?",
+    answers: ["Pocahontas", "Tiana", "Merida", "Mulan"],
+    correctAns: "Pocahontas",
+    answerLine: "Pocahontas was the only princess based on a real person. Mulan was based on a poem.",
+    video: "",
+};
+
+var cinderella = {
+    question: "Which Disney Princess almost had a pet turtle named Clarissa?",
+    answers: ["Cinderella", "Ariel", "Pocahontas", "Belle"],
+    correctAns: "Cinderella",
+    answerLine: "In earlier drafts of the film, Cinderella originally had a pet turtle named Clarissa.",
+    video: "",
+};
+
+var moana = {
+    question: "Who is currently waiting for their official live coronation to become a Disney Princess?",
+    answers: ["Anna", "Moana", "Shuri", "Gamora"],
+    correctAns: "Moana",
+    answerLine: "Moana is almost a full fledge princess!",
+    video: "",
+};
 
 //Setting up Trivia question list as an array of objects
 var triviaList = [tiana, merida, pocahontas, cinderella, moana];
 
+//redy document
 $(document).ready(function (){
     $("#start").show();
-    $("#timer").hide();
-    $("#deck").hide();
+    $("#deck").empty();
+    qTime = 10;
+    aTime = 4;
+    next = 0;
+    
 });
 
-var i = 1;
-var time = 25;
+//some required time/tracking variables
+var qTime, aTime, next;
 
+// timer for question count down
+function qCD(){
+    if (qTime > 0){
+        var timer = setInterval(function() {
+            $("#timer").text("Time remaining: " + qTime--  + " seconds.");
+            displayQ();
+        }, 1000);
+    } else {
+        aTime = 4;
+        aCD();
+        clearInterval(timer);
+    };
+};
+
+//timer for answer count down
+function aCD(){
+    var timer = setInterval(function() {
+        displayA();
+        $("#timer").empty();
+        aTime--;
+    }, 1000);
+    if (aTime === 0){
+        next++
+        qTime = 10;
+        qCD();
+        clearInterval(timer);
+    };
+};
+
+//start button
 $("#start").on("click", function(){
     $("#start").hide();
-    $("timer").show();
-    $("#deck").show();
-
-    setInterval(function() {
-        $("#timer").text("Time remaining: " + time--  + " seconds.");
-    }, 1000);
-    
-    $(".question").text(triviaList[0].question).attr("data-id", triviaList[0].answerID);
-    $(".answerList").empty();
-    $(".answerList").append("<li>" + triviaList[0].a + "</li>")
-    $(".answerList").append("<li>" + triviaList[0].b + "</li>")
-    $(".answerList").append("<li>" + triviaList[0].c + "</li>")
-    $(".answerList").append("<li>" + triviaList[0].d + "</li>")
-        
-            
-    
-
+    qCD();
 });
 
-setInterval(function() {
 
-    $(".question").text(triviaList[i++].question).attr("data-id", triviaList[i++].answerID);
-    $(".answerList").empty();
-    $(".answerList").append("<li>" + triviaList[i++].a + "</li>")
-    $(".answerList").append("<li>" + triviaList[i++].b + "</li>")
-    $(".answerList").append("<li>" + triviaList[i++].c + "</li>")
-    $(".answerList").append("<li>" + triviaList[i++].d + "</li>")
+//function to display each quesiton
+function displayQ(){
+    $("#deck").empty();
+    $("<h5>" + triviaList[next].question + "</h5>").addClass("card-title").appendTo($("#deck"));
+    for (var i = 0; i < 4; i++){
+        if (triviaList[next].answers[i] === triviaList[next].correctAns){
+            $("<button>" + triviaList[next].answers[i] + "</button>").addClass("mx-2 btn btn-info correct").appendTo($("#deck"));
+        } else {
+        $("<button>" + triviaList[next].answers[i] + "</button>").addClass("mx-2 btn btn-info").appendTo($("#deck"));
+        };
+
+    };
+};
+
+//check answer correctly
 
 
-}, 26000);
+//function to display answers
+function displayA(){
+    $("#deck").empty();
+    if (next < triviaList.length){
+        $("<h5>" + triviaList[next].answerLine + "</h5>").addClass("card-title").appendTo($("#deck"));
+    }else {
+        $("<h5>You have finished the game!</h5>").addClass("card-title").appendTo($("#deck"));
+    }
+};
+
