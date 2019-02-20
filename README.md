@@ -4,7 +4,7 @@
 ## Rules
 * Click start to begin the trivia game.
 * You will have 20 secs to answer each question
-* Three possible outcomes that are all rewarded by a 10 second clip of the correct answer.
+* Three possible outcomes which are all rewarded by a 10 second clip of the correct answer.
   * Correctly answerd
   * Incorrectly answerd
   * Unansered (time ran out)
