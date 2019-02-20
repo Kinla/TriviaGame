@@ -11,4 +11,4 @@
 - [x] Fun!
 
 ### Final Notes
-**I am always open to pointers on how to improve my code.**
+*I am always open to pointers on how to improve my code.*
