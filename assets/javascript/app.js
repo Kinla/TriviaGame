@@ -57,7 +57,7 @@ function init(){
     $("#start").show();
     $("#deck").empty();
     $(".video").hide();
-    qTime = 30;
+    qTime = 20;
     next = 0;
     right = 0;
     wrong = 0;
@@ -136,11 +136,11 @@ function displayA(){
     $(".video").show();
     $("#playVideo").attr("src", triviaList[next].video);
     next++;
-    qTime = 30;
+    qTime = 20;
     aTimer = setTimeout(qCD, 10000);
 };
 
-//function to answer question
+//to answer question
 $("body").on("click", ".answer", function(){
     $("#timer").empty().hide();
     $("#deck").empty();
@@ -156,7 +156,7 @@ $("body").on("click", ".answer", function(){
     };
 });
 
-//function to start over
+//start over
 $("body").on("click", ".startOver", function(){
     init();
 });
