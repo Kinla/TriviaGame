@@ -13,6 +13,7 @@ html {
 
 body {
     background: none;
+    font-family: 'Maven Pro', sans-serif;
 }
 
 .card {
@@ -31,7 +32,7 @@ h1 {
     color: #c72a9a;
 }
 
-p {
+.line {
     max-width: 400px;
     margin: 1rem auto;
 }
@@ -51,3 +52,6 @@ p {
     margin-bottom: 2rem;
 }
 
+.result {
+    margin-bottom: 0;
+}

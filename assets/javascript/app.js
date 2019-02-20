@@ -11,7 +11,7 @@ var merida = {
     question: "Which of the following Disney princess has brothers?",
     answers: ["Ariel", "Snow White", "Merida", "Rapunzel"],
     correctAns: "Merida",
-    answerLine: "Merida is the only princess to have brothers",
+    answerLine: "Merida is the only princess to have brothers.",
     video: "./assets/videos/merida.mp4",
 };
 
@@ -19,7 +19,7 @@ var pocahontas = {
     question: "Which Disney Princess is based on a real person?",
     answers: ["Pocahontas", "Tiana", "Merida", "Mulan"],
     correctAns: "Pocahontas",
-    answerLine: "Pocahontas was the only princess based on a real person. Mulan was based on a poem.",
+    answerLine: "Pocahontas  is the only princess based on a real person. Mulan is based on a poem.",
     video: "./assets/videos/pocahontas.mp4",
 };
 
@@ -42,36 +42,52 @@ var moana = {
 //Setting up Trivia question list as an array of objects
 var triviaList = [tiana, merida, pocahontas, cinderella, moana];
 
+//some required time/tracking variables
+var qTime, next, qTimer, aTimer;
+
+//some required scoring variables
+var right, wrong, unanswered;
+
 //redy document
 $(document).ready(function (){
+    init();
+});
+
+function init(){
     $("#start").show();
     $("#deck").empty();
     $(".video").hide();
     qTime = 30;
     next = 0;
-    
-});
-
-//some required time/tracking variables
-var qTime, next, qTimer, aTimer;
+    right = 0;
+    wrong = 0;
+    unanswered = 0;
+};
 
 // timer for question count down
 function qCD(){
     clearTimeout(aTimer);
-    qTimer = setInterval(countDown, 1000);
-    displayQ();
+    if (next === triviaList.length){
+        $("#timer").empty().hide();
+        $("#deck").empty();
+        $("<h5>You have finished the game!</h5>").addClass("card-title").appendTo($("#deck"));
+        $("<p># of correct answer(s): " + right + ".</p>").addClass("result").appendTo($("#deck"));
+        $("<p># of wrong answer(s): " + wrong + ".</p>").addClass("result").appendTo($("#deck"));
+        $("<p># unanswered: " + unanswered + ".</p>").addClass("result").appendTo($("#deck"));
+        $("<button>Start Over</button>").addClass("my-3 btn startOver").appendTo($("#deck"));
+        $(".video").hide();
+        $("#playVideo").attr("src", "");
+    
+    } else {
+        qTimer = setInterval(countDown, 1000);
+        displayQ();
+    };
 };
 
 //timer for answer count down
 function aCD(){
-    if (next === triviaList.length - 1){
-        $("#timer").empty().hide();
-        $("#deck").empty();
-        $("<h5>You have finished the game!</h5><br>").addClass("card-title").appendTo($("#deck"));
-    } else {
         clearInterval(qTimer);
         displayA();
-    };
 };
 
 //start button
@@ -86,6 +102,7 @@ function countDown(){
     qTime--
     $("#timer").text("Time remaining: " + qTime + " seconds.");
     if (qTime === 0){
+        unanswered++
         clearInterval(qTimer);
         $("#timer").empty().hide();
         $("#deck").empty();
@@ -101,7 +118,7 @@ function displayQ(){
     $("#deck").empty();
     $(".video").hide();
     $("#playVideo").attr("src", "");
-    $("#timer").text("Time remaining: " + qTime + " seconds.");
+    $("#timer").show().text("Time remaining: " + qTime + " seconds.");
     $("<h5>" + triviaList[next].question + "</h5>").addClass("card-title").appendTo($("#deck"));
     for (var i = 0; i < 4; i++){
         if (triviaList[next].answers[i] === triviaList[next].correctAns){
@@ -115,7 +132,7 @@ function displayQ(){
 
 //function to display answers
 function displayA(){
-    $("<p>" + triviaList[next].answerLine + "</p>").appendTo($("#deck"));
+    $("<p>" + triviaList[next].answerLine + "</p>").addClass("line").appendTo($("#deck"));
     $(".video").show();
     $("#playVideo").attr("src", triviaList[next].video);
     next++;
@@ -129,10 +146,17 @@ $("body").on("click", ".answer", function(){
     $("#deck").empty();
     clearInterval(qTimer);
     if($(this).hasClass("correct")){
-        $("<h5> You are corret!</h5>").addClass("card-title").appendTo($("#deck"));
+        right++
+        $("<h5> You are correct!</h5>").addClass("card-title").appendTo($("#deck"));
         displayA();        
     } else {
-        $("<h5>That is incorrect...</h5>").addClass("card-title").appendTo($("#deck"));
+        wrong++
+        $("<h5>Nope...</h5>").addClass("card-title").appendTo($("#deck"));
         displayA();
     };
+});
+
+//function to start over
+$("body").on("click", ".startOver", function(){
+    init();
 });
