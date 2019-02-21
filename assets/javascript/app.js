@@ -39,8 +39,25 @@ var moana = {
     video: "./assets/videos/moana.mp4",
 };
 
+var snowWhite = {
+    question: "Who is the youngest Princess?",
+    answers: ["Rapunzel", "Ariel", "Mulan", "Snow White"],
+    correctAns: "Snow White",
+    answerLine: "Snow White at 14 years old is the youngest of all princesses. She is also the only princess with a star on the Hollywood Walk of Fame.",
+    video: "./assets/videos/snow.mp4",
+};
+
+var aurora = {
+    question: "Who is the quietest Princess?",
+    answers: ["Tiana", "Aurora", "Jasmine", "Belle"],
+    correctAns: "Aurora",
+    answerLine: "Princess Aurora had only 18 minutes of screen time and 18 lines of dialogue in the film, making her the quietest Disney Princess.",
+    video: "./assets/videos/aurora.mp4",
+};
+
+
 //Setting up Trivia question list as an array of objects
-var triviaList = [tiana, merida, pocahontas, cinderella, moana];
+var triviaList = [tiana, merida, aurora, pocahontas, cinderella, moana, snowWhite];
 
 //some required time/tracking variables
 var qTime, next, qTimer, aTimer;
